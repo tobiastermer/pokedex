@@ -1,3 +1,24 @@
+function getTemplatePokemonCleanArray(id, name) {
+    let pokemonData = {
+        'id': id,
+        'name': name,
+        'img': currentPokemonDataOverview['sprites']['other']['home']['front_default'],
+        'types': loadPokemonTypes(),
+        'color': currentPokemonDataSpecies['color']['name'],
+        'species': currentPokemonDataSpecies['genera'][7]['genus'],
+        'height': currentPokemonDataOverview['height'],
+        'weight': currentPokemonDataOverview['weight'],
+        'abilities': loadPokemonAbilities(),
+        'gender': loadPokemonGender(name),
+        'eggGroups': loadPokemonEggGroups(),
+        'eggCycle': '',
+        'baseStats': loadPokemonBaseStats(),
+        'moves': loadPokemonMoves(),
+        'evolutionChainId': loadPokemonEvolutionId()
+    };
+    return pokemonData;
+}
+
 function getTemplatePokedex(name, i, id, img, types, color) {
     return `<div onclick="openCard(${i}); return false" class="mini-card ${color}">
                 <div class="mini-card-header">           

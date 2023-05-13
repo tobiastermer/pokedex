@@ -1,10 +1,13 @@
+let currentPokemon;
 let currentPokemonId;
 let currentPokemonName;
 let currentPokemonDataOverview;
 let currentPokemonDataSpecies;
 let currentPokemonDataEvolution;
-let allPokemon;
-let load = 20;
+let allPokemon = [];
+let allPokemonCleanArray = [];
+let allPokemonDataGender = [];
+let load = 25;
 let alreadyLoaded = 0;
 let pokemonLimit = 250;
 let pokemonID = 4;
@@ -13,23 +16,22 @@ const zeroPad = (num, places) => String(num).padStart(places, '0');
 
 async function init() {
     await loadAllPokemon();
+    await loadAllPokemonGender();
+    await buildPokemonCleanArray();
     await renderPokedex();
 }
 
 
 
+
 async function renderPokedex() {
     for (let i = alreadyLoaded; i < load; i++) {
-        if (i < allPokemon['results'].length) {
-            let name = allPokemon['results'][i]['name'];
-            let capitalizedName = capitalizeFirstLetter(name);
-            let id = i + 1;
-            let formattedId = formatNumber(id, 3);
-            let img = await getPictureByName(name);
-            await loadPokemonSpecies(id);
-            let color = getPokemonColor();
-            let types = getPokemonTypes(color);
-            document.getElementById('pokedex').innerHTML += getTemplatePokedex(capitalizedName, i, formattedId, img, types, color);
+        if (i < allPokemonCleanArray.length) {
+            currentPokemon = allPokemonCleanArray[i];
+            let capitalizedName = capitalizeFirstLetter(currentPokemon.name);
+            let formattedId = formatNumber(currentPokemon.id, 3);
+            let types = getPokemonTypes(currentPokemon.color);
+            document.getElementById('pokedex').innerHTML += getTemplatePokedex(capitalizedName, i, formattedId, currentPokemon.img, types, currentPokemon.color);
             alreadyLoaded++;
         } else {
             document.getElementById('container-loadMore').classList.add('d-none');
@@ -38,7 +40,7 @@ async function renderPokedex() {
 }
 
 function loadMore() {
-    load = load + 20;
+    load = load + 25;
     renderPokedex();
 }
 
@@ -68,41 +70,7 @@ function previousPokemon() {
     }
 }
 
-async function loadAllPokemon() {
-    let formattedLimit = formatNumber(pokemonLimit, 6);
-    let url = 'https://pokeapi.co/api/v2/pokemon/?limit=000250&offset=0';
-    let response = await fetch(url);
-    allPokemon = await response.json();
-    console.log(allPokemon);
-}
 
-async function loadPokemonOverview(name) {
-    let url = `https://pokeapi.co/api/v2/pokemon/${name}`;
-    let response = await fetch(url);
-    currentPokemonDataOverview = await response.json();
-    console.log(currentPokemonDataOverview);
-}
-
-async function loadPokemonSpecies(id) {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`
-    let response = await fetch(url);
-    currentPokemonDataSpecies = await response.json();
-    console.log(currentPokemonDataSpecies);
-}
-
-async function getPictureByName(name) {
-    await loadPokemonOverview(name);
-    return currentPokemonDataOverview['sprites']['other']['home']['front_default'];
-}
-
-async function getPokemonIdByName(name) {
-    await loadPokemonOverview(name);
-    return currentPokemonDataOverview['id'];
-}
-
-function getPokemonNameById(pokemonID) {
-    pokemonName = currentPokemonDataSpecies['name'];
-}
 
 async function loadPokemonEvolution() {
     let url = 'https://pokeapi.co/api/v2/evolution-chain/2/'
@@ -111,31 +79,23 @@ async function loadPokemonEvolution() {
     console.log(currentPokemonDataEvolution);
 }
 
+
 async function renderCard(i) {
-    let name = allPokemon['results'][i]['name'];
-    currentPokemonId = i + 1;
-    await loadPokemonOverview(name);
-    await loadPokemonSpecies(currentPokemonId);
-    // await loadPokemonEvolution();
     renderCardUpperHalf();
     renderCardLowerHalf();
     renderCardAbout();
 }
 
 function renderCardUpperHalf() {
-    let id = currentPokemonDataOverview['id'];
-    let formattedId = formatNumber(id, 3);
-    let capitalizedName = capitalizeFirstLetter(currentPokemonDataOverview['name']);
-    let img = currentPokemonDataOverview['sprites']['other']['home']['front_default'];
-    let color = getPokemonColor();
-    let types = getPokemonTypes(color);
+    let formattedId = formatNumber(currentPokemon.id, 3);
+    let capitalizedName = capitalizeFirstLetter(currentPokemon.name);
+    let types = getPokemonTypes(currentPokemon.color);
     document.getElementById('card').innerHTML = '';
-    document.getElementById('card').innerHTML = getTemplateCardUpperHalf(capitalizedName, formattedId, img, types, color);
+    document.getElementById('card').innerHTML = getTemplateCardUpperHalf(capitalizedName, formattedId, currentPokemon.img, types, currentPokemon.color);
 }
 
 function renderCardLowerHalf() {
     document.getElementById('card').innerHTML += getTemplateCardLowerHalf();
-
 }
 
 function renderCardAbout() {
@@ -151,10 +111,9 @@ function renderCardAbout() {
 function renderCardBaseStats() {
     toggleDescriptionLinkEffects(1);
     document.getElementById('description-content').innerHTML = getTemplateBaseStats();
-    let baseStats = currentPokemonDataOverview['stats'];
     let total = 0;
-    for (i = 0; i < baseStats.length; i++) {
-        let data = baseStats[i]['base_stat'];
+    for (i = 0; i < currentPokemon.baseStats.length; i++) {
+        let data = currentPokemon.baseStats[i];
         document.getElementById(`pokemon-bs${i}-number`).innerHTML = data;
         document.getElementById(`pokemon-bs${i}-graph`).innerHTML = createBaseStatsGraph(data, 100);
         total = total + data;
@@ -176,7 +135,6 @@ function renderCardEvolution() {
     currentPokemonDataEvolution['id']
     currentPokemonDataEvolution['evolution_details']['id']
 
-
 }
 
 
@@ -184,28 +142,22 @@ function renderCardEvolution() {
 function renderCardMoves(color) {
     toggleDescriptionLinkEffects(3);
     document.getElementById('description-content').innerHTML = getTemplateMovesContainer();
-    let moves = currentPokemonDataOverview['moves'];
-    for (let i = 0; i < moves.length; i++) {
-        let move = capitalizeFirstLetter(currentPokemonDataOverview['moves'][i]['move']['name']);
+    for (let i = 0; i < currentPokemon.moves.length; i++) {
+        let move = capitalizeFirstLetter(currentPokemon.moves[i]);
         document.getElementById('moves').innerHTML += getTemplateMoves(move);
     }
 }
 
-function getPokemonTypes(color) {
-    let types = '';
-    for (let i = 0; i < currentPokemonDataOverview['types'].length; i++) {
-        types += `<div class="item ${color}-item">${currentPokemonDataOverview['types'][i]['type']['name']}</div>`;
+function getPokemonTypes() {
+    let formattedTypes = '';
+    for (let i = 0; i < currentPokemon.types.length; i++) {
+        formattedTypes += `<div class="item ${currentPokemon.color}-item">${currentPokemon.types[i]}</div>`;
     }
-    return types;
-}
-
-function getPokemonColor() {
-    let color = currentPokemonDataSpecies['color']['name'];
-    return color;
+    return formattedTypes;
 }
 
 function getPokemonHeight() {
-    let cm = currentPokemonDataOverview['height'] * 10;
+    let cm = currentPokemon.height * 10;
     let feet = Math.floor(cm / 30.48);
     let inches = ((cm % 30.48) / 2.54).toFixed(1);
     let feetInch = `${feet}’${inches}"`;
@@ -214,30 +166,28 @@ function getPokemonHeight() {
 }
 
 function getPokemonWeight() {
-    let kg = currentPokemonDataOverview['weight'] / 10;
+    let kg = currentPokemon.weight / 10;
     let lbs = (kg * 2.20462).toFixed(1);
     let kgString = kg.toFixed(1);
     return `${lbs} lbs (${kgString} kg)`;
 }
 
 function getPokemonAbility() {
-    let abilities = currentPokemonDataOverview['abilities'];
-    let abilityNames = [];
-    for (let i = 0; i < abilities.length; i++) {
-        let abilityName = abilities[i]['ability']['name'];
-        abilityNames.push(abilityName.charAt(0).toUpperCase() + abilityName.slice(1));
+    let formattedAbilities = [];
+    for (let i = 0; i < currentPokemon.abilities.length; i++) {
+        let ability = currentPokemon.abilities[i];
+        formattedAbilities.push(ability.charAt(0).toUpperCase() + ability.slice(1));
     }
-    return abilityNames.join(", ");
+    return formattedAbilities.join(", ");
 }
 
 function getPokemonEggGroups() {
-    let eggGroups = currentPokemonDataSpecies['egg_groups'];
-    let eggGroupNames = [];
-    for (let i = 0; i < eggGroups.length; i++) {
-        let eggGroupName = eggGroups[i]['name'];
-        eggGroupNames.push(eggGroupName.charAt(0).toUpperCase() + eggGroupName.slice(1));
+    let formattedEggGroups = [];
+    for (let i = 0; i < currentPokemon.eggGroups.length; i++) {
+        let eggGroup = currentPokemon.eggGroups[i];
+        formattedEggGroups.push(eggGroup.charAt(0).toUpperCase() + eggGroup.slice(1));
     }
-    return eggGroupNames.join(', ');
+    return formattedEggGroups.join(', ');
 }
 
 async function getPokemonEvolutionChain() {
