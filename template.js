@@ -1,4 +1,4 @@
-function getTemplatePokemonCleanArray(id, name) {
+function getTemplatePokemonOwnArray(id, name) {
     let pokemonData = {
         'id': id,
         'name': name,
@@ -160,4 +160,26 @@ function getTemplateMovesContainer() {
 
 function getTemplateMoves(move) {
     return `<div class="item grey">${move}</div>`
+}
+
+function getTemplateGenderFeMale(chanceMale, chanceFemale) {
+    return `<div class="gender">
+                <div>
+                    <img src="./img/male-outline.svg">
+                    ${chanceMale}%
+                </div>
+                <div>
+                    <img src="./img/female-outline.svg">
+                    ${chanceFemale}%
+                </div>
+            </div>`
+}
+
+function getTemplateGenderGenderless(chanceGenderless) {
+    return `<div class="gender">
+                <div>
+                    <img src="./img/ellipse-outline.svg">
+                    ${chanceGenderless}%
+                </div>
+            </div>`
 }

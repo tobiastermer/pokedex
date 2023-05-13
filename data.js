@@ -40,18 +40,26 @@ async function loadPokemonSpecies(id) {
     // console.log(currentPokemonDataSpecies);
 }
 
+async function loadPokemonEvolution() {
+    let url = 'https://pokeapi.co/api/v2/evolution-chain/2/'
+    let response = await fetch(url);
+    currentPokemonDataEvolution = await response.json();
+    console.log(currentPokemonDataEvolution);
+}
+
 // ************************************************************
 // Functions to extract and/or transform data from API response
 
-async function buildPokemonCleanArray() {
-    for (let i = 0; i < allPokemon['results'].length; i++) {
-        let id = i + 1;
-        let name = allPokemon['results'][i]['name'];
-        await loadPokemonData(id);
-        let pokemonData = getTemplatePokemonCleanArray(id, name);
-        allPokemonCleanArray.push(pokemonData);
+async function buildPokemonOwnArray() {
+    for (let i = allPokemonOwnArray.length; i < load; i++) {
+        if (i < pokemonLimit) {
+            let id = i + 1;
+            let name = allPokemon['results'][i]['name'];
+            await loadPokemonData(id);
+            let pokemonData = getTemplatePokemonOwnArray(id, name);
+            allPokemonOwnArray.push(pokemonData);
+        }
     }
-    console.log(allPokemonCleanArray);
 }
 
 function loadPokemonTypes() {
@@ -133,6 +141,73 @@ function loadPokemonGender(name) {
     return pokemonGenderRates;
 }
 
-function loadPokemonBasicInfos() {
-    
+// *************************************************************
+// Functions to extract and/or transform data from own PokeArray
+
+function getPokemonTypes() {
+    let formattedTypes = '';
+    for (let i = 0; i < currentPokemon.types.length; i++) {
+        formattedTypes += `<div class="item ${currentPokemon.color}-item">${currentPokemon.types[i]}</div>`;
+    }
+    return formattedTypes;
 }
+
+function getPokemonHeight() {
+    let cm = currentPokemon.height * 10;
+    let feet = Math.floor(cm / 30.48);
+    let inches = ((cm % 30.48) / 2.54).toFixed(1);
+    let feetInch = `${feet}’${inches}"`;
+    let m = (cm / 100).toFixed(2);
+    return `${feetInch} (${m} m)`;
+}
+
+function getPokemonWeight() {
+    let kg = currentPokemon.weight / 10;
+    let lbs = (kg * 2.20462).toFixed(1);
+    let kgString = kg.toFixed(1);
+    return `${lbs} lbs (${kgString} kg)`;
+}
+
+function getPokemonAbility() {
+    let formattedAbilities = [];
+    for (let i = 0; i < currentPokemon.abilities.length; i++) {
+        let ability = currentPokemon.abilities[i];
+        formattedAbilities.push(ability.charAt(0).toUpperCase() + ability.slice(1));
+    }
+    return formattedAbilities.join(", ");
+}
+
+function getPokemonEggGroups() {
+    let formattedEggGroups = [];
+    for (let i = 0; i < currentPokemon.eggGroups.length; i++) {
+        let eggGroup = currentPokemon.eggGroups[i];
+        formattedEggGroups.push(eggGroup.charAt(0).toUpperCase() + eggGroup.slice(1));
+    }
+    return formattedEggGroups.join(', ');
+}
+
+function getPokemonGender() {
+    let formattedGender = [];
+    let gender = currentPokemon.gender[0]['gender'];
+    let genderRate = currentPokemon.gender[0]['genderRate'];
+    if (genderRate >= 0) {
+        let chanceMale = (100 - genderRate * 12.5);
+        let chanceFemale = genderRate * 12.5;
+        return getTemplateGenderFeMale(chanceMale, chanceFemale);
+    } else {
+        let chanceGenderless = 100;
+        return getTemplateGenderGenderless(chanceGenderless);
+    }
+}
+
+async function getPokemonEvolutionChain() {
+    evolutionChain = [];
+
+    let name = currentPokemonDataEvolution['chain']['evolves_to'][0]['species']['name'];
+    let id = await getPokemonIdByName(name);
+    let level = currentPokemonDataEvolution['chain']['evolves_to'][0]['evolution_details'][0]['min_level'];
+    let trigger = currentPokemonDataEvolution['chain']['evolves_to'][0]['evolution_details'][0]['trigger']['name'];
+
+    console.log(name, id, level, trigger)
+}
+
