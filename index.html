@@ -24,11 +24,14 @@
     <script src="script.js"></script>
 </head>
 
-<body onload="renderCard(); return false">
+<body onload="init(); return false">
 
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand">Pokedex</a>
+            <a class="navbar-brand">
+                <img src="./img/pokeball.png" alt="">
+                Pokedex
+            </a>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
@@ -44,35 +47,12 @@
         <button onclick="loadMore(); return false" type="button" class="btn btn-secondary">Load more</button>
     </div>
 
-    <div class="card d-none">
-
-        <div id="card-upperHalf">
-
-            <h1 id="pokemon-name">Name</h1>
-            <img id="pokemon-img" src="" alt="">
-            <div id="pokemon-types" class="pokemon-types"></div>
-
-        </div>
-
-        <div id="pokemon-lowerHalf">
-
-            <div class="description-categories">
-                <a onclick="renderPokemonAbout(); return false" class="description-category" href="#">About</a>
-                <a onclick="renderPokemonBaseStats(); return false" class="description-category inactive" href="#">Base
-                    Stats</a>
-                <a onclick="renderPokemonEvolution(); return false" class="description-category inactive"
-                    href="#">Evolution</a>
-                <a onclick="renderPokemonMoves(); return false" class="description-category inactive" href="#">Moves</a>
-            </div>
-
-            <div id="description-content">
-                <!-- wird dynamisch befüllt -->
-
-            </div>
-        </div>
-
+    <div class="dialog-bg d-none" id="dialog">
+        <img onclick="closeCard(); return false;" class="dialog-icon arrow-back" src="./img/arrow-back.svg">
+        <img onclick="nextPokemon(); return false;" class="dialog-icon arrow-next" src="./img/chevron-forward.svg">
+        <img onclick="previousPokemon(); return false;" class="dialog-icon arrow-previous" src="./img/chevron-back.svg">
+        <div class="card" id="card"></div>
     </div>
-
 
 </body>
 

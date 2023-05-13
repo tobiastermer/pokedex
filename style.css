@@ -1,6 +1,15 @@
 body {
     margin: 0;
-    font-family: 'Open Sans', sans-serif;
+}
+
+nav img {
+    height: 40px;
+    margin-right: 8px;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
 }
 
 #pokedex {
@@ -19,6 +28,8 @@ body {
     width: 300px;
     height: 200px;
     position: relative;
+    color: white;
+    font-weight: 500;
 }
 
 .mini-card:hover {
@@ -52,42 +63,94 @@ body {
     margin-bottom: 16px;
 }
 
+.dialog-bg {
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.dialog-icon {
+    z-index: 1000;
+    position: absolute;
+    padding: 8px;
+    filter: invert(100%);
+}
+
+.dialog-icon:hover {
+    cursor: pointer;
+    background-color: rgba(148, 148, 148, 0.75);
+    border-radius: 50%;
+}
+
+.arrow-back {
+    height: 40px;
+    top: 8px;
+    left: 8px;
+}
+
+.arrow-next,
+.arrow-previous {
+    height: 56px;
+    top: 50%;
+}
+
+.arrow-next {
+    padding-right: 4px !important;
+    right: 24px;
+}
+
+.arrow-previous {
+    padding-left: 4px !important;
+    left: 24px;
+}
+
 #card {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-
+    align-items: center;
+    /* overflow: hidden; */
+    width: 500px;
 }
 
-#card-upperHalf {
+.card-upperHalf {
     height: 50vh;
+    width: 100%;
     padding: 24px;
-    background-color: rgb(252, 108, 109);
     color: white;
     display: flex;
     flex-direction: column;
 }
 
-.pokemon-types {
+.container-items {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 4px;
 }
 
-.pokemon-type {
+.fd-column {
+    flex-direction: column;
+}
+
+.item {
     padding: 8px;
-    background-color: red;
     border-radius: 8px;
     width: fit-content;
 }
 
-#pokemon-img {
+#card img {
     position: absolute;
     max-height: 45%;
     top: 0;
+    right: 0;
 }
 
-#pokemon-lowerHalf {
+.card-lowerHalf {
+    width: 100%;
     background-color: white;
     border-top-left-radius: 32px;
     border-top-right-radius: 32px;
@@ -96,6 +159,10 @@ body {
     display: flex;
     flex-direction: column;
     padding: 24px;
+}
+
+#description-content {
+    overflow: auto;
 }
 
 .description-categories {
@@ -120,6 +187,15 @@ body {
 .inactive:hover {
     color: black;
     border-bottom: 2px solid black;
+}
+
+#moves {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.move {
+    padding: 8px;
 
 }
 
@@ -146,21 +222,26 @@ table tr td:last-child {
     display: none !important;
 }
 
+p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
 
 
 .black {
     background-color: rgb(97, 92, 92);
 }
 
-.black-type {
+.black-item {
     background-color: rgb(112, 110, 110);
 }
 
 .blue {
-    background-color: rgb(118,190,254);
+    background-color: rgb(118, 190, 254);
 }
 
-.blue-type {
+.blue-item {
     background-color: rgb(151, 206, 255);
 }
 
@@ -168,7 +249,7 @@ table tr td:last-child {
     background-color: rgb(204, 166, 110);
 }
 
-.brown-type {
+.brown-item {
     background-color: rgb(206, 180, 140);
 }
 
@@ -176,54 +257,58 @@ table tr td:last-child {
     background-color: rgb(199, 199, 199);
 }
 
-.gray-type {
+.gray-item {
     background-color: rgb(211, 210, 210);
 }
 
 .green {
-    background-color: rgb(73,208,176);
+    background-color: rgb(73, 208, 176);
 }
 
-.green-type {
+.green-item {
     background-color: rgb(135, 216, 197);
 }
 
 .pink {
-    background-color: rgb(248, 193, 236);
+    background-color: rgb(240, 175, 226);
 }
 
-.pink-type {
-    background-color: rgb(250, 212, 242);
+.pink-item {
+    background-color: rgb(250, 195, 238);
 }
 
 .purple {
-    background-color: rgb(217, 170, 255);
+    background-color: rgb(223, 159, 253);
 }
 
-.purple-type {
-    background-color: rgb(225, 191, 253);
+.purple-item {
+    background-color: rgb(228, 172, 253);
 }
 
 .red {
-    background-color: rgb(252,108,109);
+    background-color: rgb(252, 108, 109);
 }
 
-.red-type {
+.red-item {
     background-color: rgb(248, 129, 129);
 }
 
 .white {
-    background-color: rgb(255, 220, 220);
+    background-color: rgb(248, 204, 204);
 }
 
-.white-type {
-    background-color: rgb(253, 243, 243);
+.white-item {
+    background-color: rgb(248, 215, 215);
 }
 
 .yellow {
-    background-color: rgb(255,215,110);
+    background-color: rgba(216, 214, 76, 0.712);
 }
 
-.yellow-type {
-    background-color: rgb(252, 225, 157);
+.yellow-item {
+    background-color: rgba(223, 221, 97, 0.863);
+}
+
+.grey {
+    background-color: rgba(0, 0, 0, 0.05);
 }

@@ -1,11 +1,35 @@
-function getTemplatePokedex(name, id, img, types, color) {
-    return `<div class="mini-card ${color}">
+function getTemplatePokedex(name, i, id, img, types, color) {
+    return `<div onclick="openCard(${i}); return false" class="mini-card ${color}">
                 <div class="mini-card-header">           
                     <h4>${name}</h4>
                     <p>${id}</p>
                 </div>
-                <div class="pokemon-types">${types}</div>
+                <div class="container-items fd-column">${types}</div>
                 <img src="${img}">
+            </div>`;
+}
+
+function getTemplateCardUpperHalf(name, id, img, types, color) {
+    return `<div class="card-upperHalf ${color}">
+                <div class="mini-card-header">           
+                    <h1>${name}</h1>
+                    <p>${id}</p>
+                </div>
+                <div class="container-items fd-column">${types}</div>        
+                <img src="${img}">
+            </div>`;
+}
+
+function getTemplateCardLowerHalf() {
+    return `<div class="card-lowerHalf">
+                <div class="description-categories">
+                    <a onclick="renderCardAbout(); return false" class="description-category" id="card-link-0" href="#">About</a>
+                    <a onclick="renderCardBaseStats(); return false" class="description-category inactive" id="card-link-1" href="#">Base Stats</a>
+                    <a onclick="renderCardEvolution(); return false" class="description-category inactive" id="card-link-2" href="#">Evolution</a>
+                    <a onclick="renderCardMoves(); return false" class="description-category inactive" id="card-link-3" href="#">Moves</a>
+                </div>
+                <div id="description-content">
+                </div>
             </div>`;
 }
 
@@ -107,4 +131,12 @@ function getTemplateEvolution() {
     <img id="evolution-img-0" class="pokemon-evolution-img" src="" alt="">
 
     </div>`
+}
+
+function getTemplateMovesContainer() {
+    return `<div id="moves" class="container-items"></div>`;
+}
+
+function getTemplateMoves(move) {
+    return `<div class="item grey">${move}</div>`
 }
