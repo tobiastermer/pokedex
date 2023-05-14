@@ -38,6 +38,20 @@ nav img {
     transform: scale(1.01);
 }
 
+.mini-card-bg {
+    position: absolute;
+    opacity: 0.15;
+    width: 80%;
+    height: 100%;
+    left: 20%;
+    object-fit: cover;
+}
+
+.mini-card-bg:hover {
+    transform: scale(1) !important;
+
+}
+
 .mini-card img {
     height: 200px;
     object-fit: cover;
@@ -56,7 +70,7 @@ nav img {
     align-items: center;
 }
 
-#container-loadMore {
+.container-loadMore {
     display: flex;
     justify-content: center;
     padding: 16px;
@@ -124,6 +138,7 @@ nav img {
     color: white;
     display: flex;
     flex-direction: column;
+    font-weight: 500;
 }
 
 .container-items {
@@ -238,6 +253,44 @@ p {
     margin-block-end: 0;
 }
 
+#dialogPageLoad {
+    background-color: white !important;
+    z-index: 1;
+}
+
+#spinner {
+    position: absolute;
+    z-index: 100;
+    width: 150px;
+    height: 150px;
+}
+
+.pokeball-container {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    transform: scale(0.5);
+    margin: -54px;
+}
+
+.pokeball-container img {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+        /* Startposition der Rotation */
+    }
+
+    to {
+        transform: rotate(-360deg);
+        /* Endposition der Rotation */
+    }
+}
 
 
 .black {

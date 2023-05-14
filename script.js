@@ -4,20 +4,19 @@ let currentPokemonDataSpecies;
 let currentPokemonDataEvolution;
 let allPokemon = [];
 let allPokemonOwnArray = [];
-let allPokemonDataGender = [];
 let alreadyLoaded = 0;
-let load = 25;
-let pokemonLimit = 100;
+let load = 50;
+let pokemonLimit = 905;
 const zeroPad = (num, places) => String(num).padStart(places, '0');
 
 async function init() {
     await loadAllPokemon();
-    await loadAllPokemonGender();
     await buildPokemonOwnArray();
     await renderPokedex();
 }
 
-async function renderPokedex() {
+function renderPokedex() {
+    document.getElementById('spinner-container').classList.add('d-none');
     for (let i = alreadyLoaded; i < load; i++) {
             currentPokemon = allPokemonOwnArray[i];
             let capitalizedName = capitalizeFirstLetter(currentPokemon.name);
@@ -27,14 +26,20 @@ async function renderPokedex() {
             alreadyLoaded++;
     }
     if (alreadyLoaded >= pokemonLimit) {
-        document.getElementById('container-loadMore').classList.add('d-none');
+        document.getElementById('btn-loadMore').classList.add('d-none');
+    } else {
+        document.getElementById('btn-loadMore').classList.remove('d-none');
     }
 }
 
 async function loadMore() {
-    load = load + 25;
+    load = load + 50;
+    document.getElementById('btn-loadMore').classList.add('d-none');
+    document.getElementById('spinner-container').classList.remove('d-none');
     await buildPokemonOwnArray();
     renderPokedex();
+    document.getElementById('btn-loadMore').classList.remove('d-none');
+    document.getElementById('spinner-container').classList.add('d-none');
 }
 
 function openCard(i) {

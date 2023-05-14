@@ -36,7 +36,7 @@
                 Pokedex
             </a>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" type="search" placeholder="Search Pokemon" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
@@ -46,8 +46,15 @@
         <!-- wird dynamisch befüllt -->
     </div>
 
-    <div id="container-loadMore">
-        <button onclick="loadMore(); return false" type="button" class="btn btn-secondary">Load more</button>
+    <div class="container-loadMore">
+        <button onclick="loadMore(); return false" type="button" id="btn-loadMore" class="btn btn-secondary d-none">Load
+            more</button>
+        <div class="pokeball-container" id="spinner-container">
+            <div class="spinner-border" role="status" id="spinner">
+                <img class="visually-hidden" src="./img/pokeball.png" Loading...>
+            </div>
+            <img src="./img/pokeball.png" alt="Pokeball">
+        </div>
     </div>
 
     <div class="dialog-bg d-none" id="dialog">

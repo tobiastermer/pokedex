@@ -7,17 +7,6 @@ async function loadAllPokemon() {
     allPokemon = await response.json();
 }
 
-async function loadAllPokemonGender() {
-    allPokemonDataGender = [];
-    for (let i = 0; i < 3; i++) { // 1 female, 2 male, 3 genderless
-        let id = i + 1;
-        let url = `https://pokeapi.co/api/v2/gender/${id}`;
-        let response = await fetch(url);
-        let responseAsJson = await response.json();
-        allPokemonDataGender[i] = responseAsJson;
-    }
-}
-
 // ********************************************
 // API-Functions to get Data for single Pokemon
 
@@ -120,27 +109,6 @@ function loadPokemonEvolutionId() {
     return id;
 }
 
-function loadPokemonGender(name) {
-    let pokemonGenderRates = [];
-    for (let i = 0; i < allPokemonDataGender.length; i++) {
-        let pokemonSpeciesDetailsPerGender = allPokemonDataGender[i]['pokemon_species_details'];
-        let gender = allPokemonDataGender[i]['name'];
-        for (let j = 0; j < pokemonSpeciesDetailsPerGender.length; j++) {
-            let pokemonName = pokemonSpeciesDetailsPerGender[j]['pokemon_species']['name'];
-            let pokemonGenderRate = pokemonSpeciesDetailsPerGender[j]['rate'];
-            if (name == pokemonName) {
-                let pokemonGenderInfos = {
-                    'gender': gender,
-                    'genderRate': pokemonGenderRate
-                };
-                pokemonGenderRates.push(pokemonGenderInfos);
-                j = pokemonSpeciesDetailsPerGender.length;
-            }
-        }
-    }
-    return pokemonGenderRates;
-}
-
 // *************************************************************
 // Functions to extract and/or transform data from own PokeArray
 
@@ -150,6 +118,15 @@ function getPokemonTypes() {
         formattedTypes += `<div class="item ${currentPokemon.color}-item">${currentPokemon.types[i]}</div>`;
     }
     return formattedTypes;
+}
+
+function getPokemonSpecies() {
+    let i;
+    for (i = 0; i < currentPokemonDataSpecies['genera'].length; i++) {
+        if (currentPokemonDataSpecies['genera'][i]['language']['name'] == 'en') {
+            return currentPokemonDataSpecies['genera'][i]['genus'];
+        }
+    }
 }
 
 function getPokemonHeight() {
@@ -187,9 +164,7 @@ function getPokemonEggGroups() {
 }
 
 function getPokemonGender() {
-    let formattedGender = [];
-    let gender = currentPokemon.gender[0]['gender'];
-    let genderRate = currentPokemon.gender[0]['genderRate'];
+    let genderRate = currentPokemon.genderRate;
     if (genderRate >= 0) {
         let chanceMale = (100 - genderRate * 12.5);
         let chanceFemale = genderRate * 12.5;

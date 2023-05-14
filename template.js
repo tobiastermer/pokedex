@@ -5,11 +5,11 @@ function getTemplatePokemonOwnArray(id, name) {
         'img': currentPokemonDataOverview['sprites']['other']['home']['front_default'],
         'types': loadPokemonTypes(),
         'color': currentPokemonDataSpecies['color']['name'],
-        'species': currentPokemonDataSpecies['genera'][7]['genus'],
+        'species': getPokemonSpecies(),
         'height': currentPokemonDataOverview['height'],
         'weight': currentPokemonDataOverview['weight'],
         'abilities': loadPokemonAbilities(),
-        'gender': loadPokemonGender(name),
+        'genderRate': currentPokemonDataSpecies['gender_rate'],
         'eggGroups': loadPokemonEggGroups(),
         'eggCycle': '',
         'baseStats': loadPokemonBaseStats(),
@@ -21,6 +21,7 @@ function getTemplatePokemonOwnArray(id, name) {
 
 function getTemplatePokedex(name, i, id, img, types, color) {
     return `<div onclick="openCard(${i}); return false" class="mini-card ${color}">
+                <img src="/img/pokeball.png" class="mini-card-bg">            
                 <div class="mini-card-header">           
                     <h4>${name}</h4>
                     <p>${id}</p>
@@ -32,6 +33,7 @@ function getTemplatePokedex(name, i, id, img, types, color) {
 
 function getTemplateCardUpperHalf(name, id, img, types, color) {
     return `<div class="card-upperHalf ${color}">
+                <img src="/img/pokeball.png" class="mini-card-bg">            
                 <div class="mini-card-header">           
                     <h1>${name}</h1>
                     <p>${id}</p>
