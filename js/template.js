@@ -42,7 +42,7 @@ function getTemplateEvolutionChainOwnArray(id, evolutionChain) {
 
 function getTemplatePokedex(name, i, id, img, types, color) {
     return `<div onclick="openCard(${i}); return false" class="poke-card mini-card ${color}">
-                <img src="/img/pokeball.png" class="card-bg">            
+                <img src="./img/pokeball.png" class="card-bg">            
                 <div class="card-header">           
                     <h4>${name}</h4>
                     <p>${id}</p>
@@ -55,9 +55,9 @@ function getTemplatePokedex(name, i, id, img, types, color) {
 function getTemplateCardUpperHalf(name, id, img, types, color) {
     return `<div class="card-upperHalf ${color}">
                 <img onclick="closeCard(); return false;" class="dialog-icon arrow-back" src="./img/close-circle.svg">
-                <img onclick="nextPokemon(); return false;" class="dialog-icon arrow-next" src="./img/chevron-forward.svg">
-                <img onclick="previousPokemon(); return false;" class="dialog-icon arrow-previous" src="./img/chevron-back.svg">
-                <img src="/img/pokeball.png" class="card-bg">            
+                <img onclick="nextPokemon(); return false;" id="btn-nextPoke" class="dialog-icon arrow-next" src="./img/chevron-forward.svg">
+                <img onclick="previousPokemon(); return false;" id="btn-prevPoke" class="dialog-icon arrow-previous" src="./img/chevron-back.svg">
+                <img src="./img/pokeball.png" class="card-bg">            
                 <div class="card-header">           
                     <h1>${name}</h1>
                     <p>${id}</p>

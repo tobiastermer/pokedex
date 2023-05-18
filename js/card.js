@@ -36,6 +36,7 @@ function renderCardUpperHalf() {
     let types = getPokemonTypes(openedPokemon);
     document.getElementById('card').innerHTML = '';
     document.getElementById('card').innerHTML = getTemplateCardUpperHalf(capitalizedName, formattedId, openedPokemon.img, types, openedPokemon.color);
+    toggleNextPreviousButton();
 }
 
 function renderCardLowerHalf() {

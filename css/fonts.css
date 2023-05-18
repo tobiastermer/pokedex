@@ -1,11 +1,18 @@
 @font-face {
     font-family: 'Sigmar';
-    src: url('../fonts/Sigmar-Regular.eot');
     src: local('../fonts/Sigmar Regular'), local('Sigmar-Regular'),
         url('../fonts/Sigmar-Regular.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Sigmar-Regular.woff2') format('woff2'),
-        url('../fonts/Sigmar-Regular.woff') format('woff'),
-        url('../fonts/Sigmar-Regular.ttf') format('truetype');
+        url('../fonts/Sigmar-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Architects Daughter';
+    src: local('../fonts/Architects Daughter V2'), local('Architects Daughter V2'),
+        url('../fonts/Architects Daughter V2.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Architects Daughter V2.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

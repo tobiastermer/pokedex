@@ -9,8 +9,8 @@ nav img {
 }
 
 nav form {
-    font-family: cursive;
-    width: 170px !important;
+    font-family: 'Architects Daughter';
+    width: 150px !important;
 }
 
 .stop-scrolling {
@@ -59,7 +59,7 @@ nav form {
 
 .card-bg {
     position: absolute;
-    opacity: 0.2;
+    opacity: 0.15;
     width: 100%;
     height: 100% !important;
     left: 20%;
@@ -184,8 +184,6 @@ nav form {
     width: fit-content;
 }
 
-
-
 .card-lowerHalf {
     width: 100%;
     background-color: white;
@@ -196,7 +194,7 @@ nav form {
     display: flex;
     flex-direction: column;
     padding: 24px;
-    font-family: cursive;
+    font-family: 'Architects Daughter';
     z-index: 1;
 }
 
@@ -205,6 +203,7 @@ nav form {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    font-size: 14px;
 }
 
 .description-categories {
@@ -215,7 +214,7 @@ nav form {
 }
 
 .description-category {
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     padding-bottom: 16px;
     color: black;
@@ -265,7 +264,7 @@ table {
 
 td {
     padding: 6px 0px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 tr td:first-child {
@@ -366,7 +365,6 @@ p {
 }
 
 @media (max-width: 665px) {
-
     .mini-card {
         width: calc(50% - (3 * 16px / 2));
     }
@@ -378,7 +376,6 @@ p {
 }
 
 @media (max-width: 525px) {
-
     .mini-card {
         width: calc(100% - 16px);
     }
@@ -390,8 +387,6 @@ p {
 }
 
 @media (max-width: 500px) {
-
-
     .big-card {
         border-radius: 0 !important;
     }

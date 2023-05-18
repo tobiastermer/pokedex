@@ -8,7 +8,7 @@ let allPokemonOwnArray = [];
 let allPokemonEvolutionChains = [];
 let searchArray = [];
 let alreadyLoaded = 0;
-let load = 50;
+let load = 30;
 let pokemonLimit = 905;
 const zeroPad = (num, places) => String(num).padStart(places, '0');
 
@@ -49,7 +49,7 @@ async function renderPokedexElement(id) {
 }
 
 async function loadMore() {
-    load = load + 50;
+    load = load + 30;
     document.getElementById('btn-loadMore').classList.add('d-none');
     document.getElementById('spinner-container').classList.remove('d-none');
     await buildPokemonOwnArray();
@@ -58,7 +58,7 @@ async function loadMore() {
 }
 
 async function searchPokemon() {
-    let searchTerm = document.getElementById('search').value;
+    let searchTerm = document.getElementById('search').value.toLowerCase();
     searchArray = [];
     if (searchTerm !== '') {
         searchArray = allPokemonOwnArray

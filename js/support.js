@@ -40,3 +40,14 @@ function checkWhereIdIsInArray(id, array) {
     }
     return -1;
 }
+
+function toggleNextPreviousButton() {
+    let i = checkWhereIdIsInArray(+openedPokemon.id + 1, allPokemonOwnArray);
+    if (i < 0) {
+        document.getElementById('btn-nextPoke').classList.add('d-none');
+    }
+    let j = checkWhereIdIsInArray(+openedPokemon.id - 1, allPokemonOwnArray);
+    if (j < 0) {
+        document.getElementById('btn-prevPoke').classList.add('d-none');
+    }
+}

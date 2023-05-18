@@ -137,30 +137,25 @@ async function buildPokemonEvolutionChainOwnArray(id) {
         let currentEvolution = currentPokemonDataEvolution['chain'];
         for (let i = 0; i < numberOfEvolutions; i++) {
             for (let j = 0; j < currentEvolution['evolves_to'].length; j++) {
-                let pokemonFromUrl = currentEvolution['species']['url'];
-                let pokemonFromId = extractStringBetweenSlashes(pokemonFromUrl);
-                let trigger = currentEvolution['evolves_to'][j]['evolution_details'][0]['trigger']['name'];
-                let minLevel = currentEvolution['evolves_to'][j]['evolution_details'][0]['min_level'];
-                let min_happiness = currentEvolution['evolves_to'][j]['evolution_details'][0]['min_happiness'];
-                let item = '';
-                if (trigger == 'use-item') {
-                    item = currentEvolution['evolves_to'][j]['evolution_details'][0]['item']['name'];
-                };
-                let heldItem = '';
-                if (trigger == 'trade') {
-                    if (currentEvolution['evolves_to'][j]['evolution_details'][0]['held_item'] !== null) {
-                        heldItem = currentEvolution['evolves_to'][j]['evolution_details'][0]['held_item']['name'];
-                    }
-                }
-                let pokemonToUrl = currentEvolution['evolves_to'][j]['species']['url'];
-                let pokemonToId = extractStringBetweenSlashes(pokemonToUrl);
-                let evolutionChainChild = getTemplateEvolutionChainOwnArrayChild(pokemonFromId, trigger, minLevel, min_happiness, item, heldItem, pokemonToId);
+                let evolutionChainChild = getArrayEvolutionChain(currentEvolution, j);
                 evolutionChain.push(evolutionChainChild);
             }
             currentEvolution = currentEvolution.evolves_to[0];
         }
         allPokemonEvolutionChains.push(getTemplateEvolutionChainOwnArray(id, evolutionChain));
     }
+}
+
+function getArrayEvolutionChain(currentEvolution, i) {
+    let evolutionDetails = currentEvolution['evolves_to'][i]['evolution_details'][0];
+    let trigger = evolutionDetails['trigger']['name'];
+    let minLevel = evolutionDetails['min_level'];
+    let minHappiness = evolutionDetails['min_happiness'];
+    let item = (trigger === 'use-item') ? evolutionDetails['item']['name'] : '';
+    let heldItem = (trigger === 'trade' && evolutionDetails['held_item'] !== null) ? evolutionDetails['held_item']['name'] : '';
+    let pokemonFromId = extractStringBetweenSlashes(currentEvolution['species']['url']);
+    let pokemonToId = extractStringBetweenSlashes(currentEvolution['evolves_to'][i]['species']['url']);
+    return getTemplateEvolutionChainOwnArrayChild(pokemonFromId, trigger, minLevel, minHappiness, item, heldItem, pokemonToId);
 }
 
 function getNumberOfEvolutions() {
