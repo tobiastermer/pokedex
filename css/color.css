@@ -1,0 +1,83 @@
+.black {
+    background-color: rgb(97, 92, 92);
+}
+
+.black-item {
+    background-color: rgb(112, 110, 110);
+}
+
+.blue {
+    background-color: rgb(118, 190, 254);
+}
+
+.blue-item {
+    background-color: rgb(151, 206, 255);
+}
+
+.brown {
+    background-color: rgb(204, 166, 110);
+}
+
+.brown-item {
+    background-color: rgb(206, 180, 140);
+}
+
+.gray {
+    background-color: rgb(199, 199, 199);
+}
+
+.gray-item {
+    background-color: rgb(211, 210, 210);
+}
+
+.green {
+    background-color: rgb(73, 208, 176);
+}
+
+.green-item {
+    background-color: rgb(135, 216, 197);
+}
+
+.pink {
+    background-color: rgb(240, 175, 226);
+}
+
+.pink-item {
+    background-color: rgb(250, 195, 238);
+}
+
+.purple {
+    background-color: rgb(223, 159, 253);
+}
+
+.purple-item {
+    background-color: rgb(228, 172, 253);
+}
+
+.red {
+    background-color: rgb(252, 108, 109);
+}
+
+.red-item {
+    background-color: rgb(248, 129, 129);
+}
+
+.white {
+    background-color: rgb(248, 204, 204);
+}
+
+.white-item {
+    background-color: rgb(248, 215, 215);
+}
+
+.yellow {
+    background-color: rgba(216, 214, 76, 0.712);
+}
+
+.yellow-item {
+    background-color: rgba(223, 221, 97, 0.863);
+}
+
+.grey {
+    background-color: rgba(0, 0, 0, 0.05);
+}

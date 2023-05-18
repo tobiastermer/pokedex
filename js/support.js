@@ -23,3 +23,20 @@ function disableScroll() {
 function enableScroll() {
     document.body.classList.remove("stop-scrolling");
 }
+
+function extractStringBetweenSlashes(inputUrl) {
+    let url = inputUrl;
+    let lastSlashIndex = url.lastIndexOf('/');
+    let secondLastSlashIndex = url.lastIndexOf('/', lastSlashIndex - 1);
+    let id = url.substring(secondLastSlashIndex + 1, lastSlashIndex);
+    return id;
+}
+
+function checkWhereIdIsInArray(id, array) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i]['id'] == id) {
+            return i;
+        }
+    }
+    return -1;
+}
